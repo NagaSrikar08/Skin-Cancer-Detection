@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skin Cancer Detection</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #dbe3ee;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --danger-bg: #fff1f2;
+      --danger-text: #be123c;
+      --success-bg: #ecfdf5;
+      --success-text: #047857;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.6;
+    }
+
+    .notice {
+      background: #fff8db;
+      color: #7c5c00;
+      border: 1px solid #f2df8a;
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin: 20px 0 28px;
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 1.2rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .preview-box,
+    .result-box {
+      min-height: 300px;
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: #fafcff;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .preview-box img {
+      max-width: 100%;
+      max-height: 320px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: white;
+      flex: 1;
+    }
+
+    .primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .secondary {
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .metric {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
+      text-align: left;
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .badge.success {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .badge.alert {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 860px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Binary Skin Cancer Detection</h1>
+      <p>
+        Upload a skin lesion image to receive a prediction of
+        <strong>cancer</strong> or <strong>non-cancer</strong>,
+        along with confidence values.
+      </p>
+    </section>
+
+    <div class="notice">
+      This system is for research and educational use only. It is not a medical diagnosis tool.
+    </div>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Upload Image</h2>
+
+        <div class="field">
+          <label for="imageInput">Select image</label>
+          <input id="imageInput" type="file" accept="image/*" />
+        </div>
+
+        <div id="previewBox" class="preview-box">
+          No image selected yet.
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="runBtn">Run Prediction</button>
+          <button class="secondary" id="clearBtn" type="button">Clear</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Result</h2>
+        <div id="resultBox" class="result-box">
+          Prediction results will appear here after analysis.
+        </div>
+        
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const BACKEND_URL = "http://localhost:8000"; 
+    // Example:
+    // const BACKEND_URL = "http://localhost:8000";
+    // const BACKEND_URL = "https://your-backend.onrender.com";
+
+    const imageInput = document.getElementById("imageInput");
+    const previewBox = document.getElementById("previewBox");
+    const resultBox = document.getElementById("resultBox");
+    const runBtn = document.getElementById("runBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    let selectedFile = null;
+
+    imageInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      selectedFile = file || null;
+
+      if (!file) {
+        previewBox.textContent = "No image selected yet.";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewBox.innerHTML = `<img src="${e.target.result}" alt="Skin lesion preview" />`;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    clearBtn.addEventListener("click", () => {
+      imageInput.value = "";
+      selectedFile = null;
+      previewBox.textContent = "No image selected yet.";
+      resultBox.textContent = "Prediction results will appear here after analysis.";
+    });
+
+    runBtn.addEventListener("click", async () => {
+      if (!selectedFile) {
+        resultBox.innerHTML = `
+          <div style="width:100%; text-align:left;">
+            <div class="badge alert">No image uploaded</div>
+            <div>Please choose an image before running prediction.</div>
+          </div>
+        `;
+        return;
+      }
+
+      resultBox.innerHTML = "Running analysis...";
+
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const response = await fetch(`${BACKEND_URL}/predict`, {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Prediction failed.");
+        }
+
+        const predictedClass = data.predicted_class || "unknown";
+        const confidence = ((data.confidence || 0) * 100).toFixed(1);
+        const probabilities = data.probabilities || {};
+
+        const cancerProb = probabilities["cancer"] !== undefined
+          ? (probabilities["cancer"] * 100).toFixed(1)
+          : "N/A";
+
+        const nonCancerProb = probabilities["non-cancer"] !== undefined
+          ? (probabilities["non-cancer"] * 100).toFixed(1)
+          : "N/A";
+
+        const isCancer = predictedClass.toLowerCase().includes("cancer") &&
+                         !predictedClass.toLowerCase().includes("non-cancer");
+
+        resultBox.innerHTML = `
+          <div style="width:100%; text-align:left;">
+            <div class="badge ${isCancer ? "alert" : "success"}">
+              Prediction: ${predictedClass}
+            </div>
+
+            <div class="metric">
+              <strong>Confidence score</strong>
+              ${confidence}%
+            </div>
+
+            <div class="metric">
+              <strong>Probability: cancer</strong>
+              ${cancerProb}%
+            </div>
+
+            <div class="metric">
+              <strong>Probability: non-cancer</strong>
+              ${nonCancerProb}%
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        resultBox.innerHTML = `
+          <div style="width:100%; text-align:left;">
+            <div class="badge alert">Analysis failed</div>
+            <div>Could not connect to the prediction service.</div>
+            <div class="footer-note">${error.message}</div>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
